@@ -1,0 +1,25 @@
+﻿@{
+    // Set the layout page and page title
+    Layout = "~/_LayoutMain.cshtml";
+    Page.Title = "با تشکر از عضویت شما";
+}
+
+@if (!WebSecurity.IsAuthenticated) {
+    <hgroup class="title">
+        <h1>@Page.Title.</h1>
+        <h2>اما شما نمی توانید وارد شوید.</h2>
+    </hgroup>
+
+    <p>
+       اطلاعات شما با موفقیت ثبت شد. نام کاربری شما بعد از تایید مدیر سایت فعال می شود
+    </p>
+} else {
+    <hgroup class="title">
+        <h1>@Page.Title.</h1>
+        <h2>You are all set.</h2>
+    </hgroup>
+
+    <p>
+        It looks like you've already confirmed your account and are good to go.
+    </p>
+}

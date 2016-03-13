@@ -1,0 +1,65 @@
+﻿@{
+    Layout = "_LayoutManager.cshtml";
+    Page.Title = "گروه بندی کاربران";  
+}
+@{
+    var Grouping = "";
+    var ID = "";
+
+    var db = Database.Open("WebDB");
+    var cmd = "SELECT Fname,Lname,Grouping,ID,MablaghVam FROM UserTB";
+    var cmd2 = "UPDATE UserTB SET Grouping=@0 WHERE ID=@1";
+
+    if (IsPost&&Validation.IsValid())
+    {
+        Grouping = Request["Grouping"];
+        ID=Request["ID"];
+        db.Execute(cmd2, Grouping, ID);
+    }
+}
+
+<div class="row"><!--consept-->
+			<div class="col-md-12">
+				<div class="container">
+				<div class="row">
+					<div class="container-fluid">
+						<div class="panel panel-primary">
+						<!-- Default panel contents -->
+							<div class="panel-heading">گروه بندی اعضاء</div>
+							<!-- Table -->
+                            <table class="table  table-hover table-bordered">
+								<tr>
+                                    <td class="col-md-1"></td>
+									<td class="col-md-2">نام</td>
+									<td class="col-md-3">نام خانوادگی</td>
+									<td class="col-md-3">مبلغ وام</td>
+									<td class="col-md-1">شماره گروه</td>
+								    <td class="hidden"></td>
+                                    <td class="col-md-2">تایید</td>	
+								</tr>
+                                @{var i=1;}
+                               @foreach (var row in db.Query(cmd))
+                               {
+                                   if (row.Grouping==null)
+                                   {
+                                    <form method="post">
+                                        <tr>
+                                           <td>@i</td>
+									       <td>@row.Fname</td>
+									       <td>@row.Lname</td>
+                                           <td>@row.MablaghVam</td>
+                                           <td><input type="text" class="form-control" name="Grouping" value="@Request["Grouping"]" /></td>									                                                    
+                                           <td class="hidden"><input type="hidden" name="ID" value="@row.ID" /></td>
+                                           <td><button class="btn btn-success btn-block">تایید</button></td>
+								       </tr>
+                                    </form>   
+                                    i++;                                 
+                                    }
+                                    }
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>

@@ -1,0 +1,16 @@
+background-image: linear-gradient(bottom, rgb(53,140,97) 6%, rgb(119,181,131) 53%, rgb(184,224,190) 77%, rgb(247,252,248) 89%, rgb(255,255,255) 95%);
+background-image: -o-linear-gradient(bottom, rgb(53,140,97) 6%, rgb(119,181,131) 53%, rgb(184,224,190) 77%, rgb(247,252,248) 89%, rgb(255,255,255) 95%);
+background-image: -moz-linear-gradient(bottom, rgb(53,140,97) 6%, rgb(119,181,131) 53%, rgb(184,224,190) 77%, rgb(247,252,248) 89%, rgb(255,255,255) 95%);
+background-image: -webkit-linear-gradient(bottom, rgb(53,140,97) 6%, rgb(119,181,131) 53%, rgb(184,224,190) 77%, rgb(247,252,248) 89%, rgb(255,255,255) 95%);
+background-image: -ms-linear-gradient(bottom, rgb(53,140,97) 6%, rgb(119,181,131) 53%, rgb(184,224,190) 77%, rgb(247,252,248) 89%, rgb(255,255,255) 95%);
+
+background-image: -webkit-gradient(
+	linear,
+	left bottom,
+	left top,
+	color-stop(0.06, rgb(53,140,97)),
+	color-stop(0.53, rgb(119,181,131)),
+	color-stop(0.77, rgb(184,224,190)),
+	color-stop(0.89, rgb(247,252,248)),
+	color-stop(0.95, rgb(255,255,255)));
+        background-color:#8bf07d;

@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="~/css/bootstrap.css">	
+	<link rel="stylesheet" type="text/css" href="~/css/Navbar.css"">	
+	<link rel="stylesheet" type="text/css" href="~/css/bootstrap-rtl.css">
+    <link rel="stylesheet" type="text/css" href="~/css/Register.css">
+    <link rel="stylesheet" type="text/css" href="~/css/Login.css">
+    
+	<link rel="stylesheet" type="text/css" href="~/css/animate.css">
+	<link rel="stylesheet" type="text/css" href="~/css/foother.css">
+	<link rel="stylesheet" type="text/css" href="~/css/Color.css">
+	<link rel="stylesheet" type="text/css" href="~/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="~/css/styles.css">
+    
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/npm.js"></script>
+    <script type="text/javascript" src="js/Register.js"></script>
+    <script type="text/javascript" src="js/Login.js"></script>
+
+    <title>@Page.Title</title>
+    
+    </head>
+    <body dir="rtl">
+        @RenderPage("_MainHeader.cshtml")
+        @RenderSection("head", required: false)
+        @RenderBody()
+        <!-- Modal -->
+		<div class="modal fade" id="t_and_c_m" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+								<h4 class="modal-title" id="myModalLabel">قوانین و مقررات</h4>
+					</div>
+					<div class="modal-body">
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+					</div>
+				    </div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+        @RenderPage("_MainFooter.cshtml")
+    </body>
+</html>

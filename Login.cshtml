@@ -1,0 +1,102 @@
+﻿@{
+    Layout = "_LayoutMain.cshtml";
+    Page.Title = "ورود به سایت";
+}
+@{
+    var username="";
+    var Password = "";    
+    var Admin = "";
+    var Message = "";
+    var i=0;
+    string[] AUser=new string[500];
+    string[] APass = new string[500];
+    var db = Database.Open("WebDB");
+    ClassLogin c = new ClassLogin();
+
+    var cmd2 = "SELECT Username, Password FROM UserTB";
+    var cmd1 = "SELECT * FROM AdminTB";
+
+    if (IsPost)
+    {
+        username=Request["username"];
+        Password = Request["Password"];
+        Admin = Request["Admin"];
+
+        if (Admin=="on")
+        {
+            foreach (var row in db.Query(cmd1))
+            {
+                AUser[i] = row.Username;
+                APass[i] = row.Password;
+                i++;
+            }
+            while (i >= 0)
+            {
+                if (username==AUser[i] && Password==APass[i])
+                {
+                    Message = "";
+                    c.Username = username;
+                    Response.Redirect("~/ChangePassword");
+                }
+                else
+                {
+                    Message = "نام کاربری و رمز عبور نادرست است.";
+                    i--;
+                }
+            }
+        }
+        else
+        {
+            foreach (var row in db.Query(cmd2))
+            {
+                AUser[i] = row.Username;
+                APass[i] = row.Password;
+                i++;
+            }
+            while (i >= 0)
+            {
+                if (username == AUser[i] && Password == APass[i])
+                {
+                    Message = "";
+                    c.Username = username;
+                    Response.Redirect("~/EditUsers");
+                }
+                else
+                {
+                    Message = "نام کاربری و رمز عبور نادرست است.";
+                    i--;
+                }
+            }
+        }
+    }
+
+}
+            <div class="container">
+                <div class="row vertical-offset-100">
+                    <div class="col-md-4 col-md-offset-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">                                
+                                <div class="row-fluid user-row">
+                                    <img src="img/logo_sm_2_mr_1.png" class="img-responsive" alt="Conxole Admin"/>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <form method="post" accept-charset="UTF-8" role="form" class="form-signin">                            
+                                        <label class="panel-login">
+                                        <div class="login_result">
+                                            @if (Message!="")
+                                            { <div class="alert alert-danger">
+                                                <strong>خطا!</strong> @Message</div>}
+                                        </div>
+                                        </label>
+                                        <input class="form-control" placeholder="نام کاربری ..." name="username" value="@Request["Username"]" id="username" type="text">
+                                        <input class="form-control" placeholder="رمز عبور ..." name="Password" value="@Request["Password"]" id="password" type="password">
+                                        <input type="checkbox" name="Admin" id="Admin">
+										<label for="Admin">ورود مدیر</label>	
+                                        <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-success" value="ورود" />										                                    
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>

@@ -1,0 +1,118 @@
+﻿@{
+    Layout = "_layoutManager.cshtml";
+    Page.Title = "ویرایش اسلایدشو";
+}
+@{
+    WebImage photo = null;
+    var newFileName = "";
+    var imagePath = "";
+    var Subject = "";
+    var Pic = "";
+    var ID = 1;
+
+    if (IsPost && Validation.IsValid())
+    {
+       
+        //db.Execute(cmd3, Pic, Subject, ID);
+    }
+    
+    if(IsPost){
+        photo = WebImage.GetImageFromRequest();
+         if (photo != null)
+        {
+            newFileName = Path.GetFileName(photo.FileName);
+            imagePath = "img/img-khabar/" + newFileName;
+            photo.Save("~/" + imagePath);
+            
+        } 
+        Subject = Request.Form["Subject"];
+    }
+   
+
+    if (Request["select"] != null)
+    {
+        ID = Request["select"].AsInt();
+    }
+    var db = Database.Open("WebDB");
+    var cmd = "SELECT * FROM SlideTB";
+    var cmd2 = "SELECT * FROM SlideTB WHERE ID=@0";
+    var cmd3 = "UPDATE SlideTB SET Pic=@0 AND alt=@1 WHERE ID=@2";
+}
+
+<div class="row"><!--consept-->
+	<div class="col-md-12">
+		<div class="container">
+			<div class="container-fluid">
+				<div class="panel panel-primary">
+                    <!-- Default panel contents -->
+				    <div class="panel-heading">انتخاب تصاویر اسلاید شو</div>
+					<!-- Table -->
+                    
+					<table class="table  table-hover table-bordered"> 
+                        @if (ID!=-1)
+                        {
+                            foreach (var row1 in db.Query(cmd2,ID))
+                            {
+                                <tr><form method="post" id="form1">
+								    <td><input type="submit" value="انتخاب اسلاید" class="btn btn-success btn-block" /></td>
+								    <td>
+                                            <select name="select" id="mySelect" class="form-control">
+                                            <option value="-1">یکی از اسلایدها را انتخاب کنید ...</option>
+                                            @foreach (var row in db.Query(cmd))
+                                            {                                            
+                                               <option value="@row.ID">@row.alt</option>                                                                                                                       
+                                            }		
+                                            </select> 
+                                            @if (ID != -1)
+                                            {
+                                                <input name="ID" type="hidden" value="@ID" />
+                                            }                                     
+								    </td></form>
+                                </tr>
+                                <tr>
+								    <td>موضوع</td>
+								    <td><input name="Subject" type="text" class="form-control" value="@Request.Form["Subject"]"/></td>
+							    </tr>
+                                <tr>
+								    <td>پیش نمایش تصویر</td>
+								    <td>
+                                        @if (imagePath=="")
+                                        {
+                                            <img id="Pic" src="@row1.Pic" class="img-responsive" alt="@row1.alt">
+                                            Pic = row1.pic;
+                                        }
+                                        else
+                                        {
+                                            <img id="Pic" src="@imagePath" class="img-responsive" alt="@row1.alt">
+                                            Pic = imagePath;
+                                        }
+                                        </td>
+							    </tr>
+                                <tr>
+								    <td>آپلود تصویر</td>
+								    <td><form id="form2" class="form-inline" method="post" enctype="multipart/form-data"><input type="file" class="form-group" name="fileUpload"><input class="form-group btn btn-success" type="submit" value="انتخاب تصویر"/></form>
+								    </td>
+							    </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><p>برای نمایش بهتر تصاویر در سایت از فرمت jpg و سایز 00*00 استفاده کنید.</p></td>
+                                </tr>
+                            <tr><form method="post" id="form3">
+                                <td></td>
+                                <td><input type="submit" value="ذخیره تغییرات" class="btn btn-success btn-block"/></td>
+                                </form>
+                            </tr>
+                            }
+                        }
+                        else
+                        {
+                            ID = Convert.ToInt32(Request["ID"]);
+                            Response.Redirect("~/EditSlide");
+                        }  
+                                                               
+					</table>              
+				</div>
+			</div>
+		</div>
+	 </div>
+</div>

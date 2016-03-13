@@ -1,0 +1,70 @@
+﻿@{
+    Layout = "~/_LayoutManager.cshtml";
+    Page.Title = "تایید کاربر";
+}
+@{
+    var db = Database.Open("WebDB");
+    var cmd = "SELECT Fname,Lname,FatherName,Username,Config,ID FROM UserTB";
+    var cmd2 = "UPDATE UserTB SET Config=@0 WHERE ID=@1";
+    //db.Execute(cmd);
+    var Config = "";
+    var ID = "";
+    if (IsPost&&Validation.IsValid())
+    {
+        Config=Request["Config"];
+        ID = Request["ID"];
+        db.Execute(cmd2, Config,ID);
+    }
+}
+
+		<div class="row"><!--consept-->
+			<div class="col-md-12">
+				<div class="container">
+				<div class="row">
+					<div class="container-fluid">
+						<div class="panel panel-primary">
+						<!-- Default panel contents -->
+							<div class="panel-heading">تایید کاربر</div>
+							<!-- Table -->
+							<table class="table  table-hover table-bordered">
+								<tr>
+                                    <td class="col-md-1"></td>
+									<td class="col-md-2">نام</td>
+									<td class="col-md-2">نام خانوادگی</td>
+									<td class="col-md-2">نام پدر</td>
+									<td class="col-md-2">نام کاربری</td>
+                                    <td class="hidden"></td>
+									<td class="col-md-1">تایید</td>
+																		
+								</tr>
+                                @{var i=1;}
+                                @foreach (var row in db.Query(cmd))
+                                {
+                                    if (row.Config != "on")
+                                    {
+                                        <form method="post">
+                                        <tr>
+                                            <td>@i</td>
+									        <td>@row.Fname</td>
+									        <td>@row.Lname</td>
+                                            <td>@row.FatherName</td>
+									        <td>@row.Username</td>
+                                            <td class="hidden"><input type="hidden" name="ID" value="@row.ID" /></td>
+                                            <td><input type="checkbox" class="form-control" name="Config" value="@Request["Config"]"></td>
+                                            <td><button class="btn btn-success btn-block">تایید</button></td>
+								        </tr>                                    
+                                        </form>
+                                    i++;
+                                    }
+                                }
+                                <tr>
+                                     
+                                </tr>							
+							</table>
+                           
+						</div>             
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>

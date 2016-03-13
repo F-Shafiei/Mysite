@@ -1,0 +1,183 @@
+﻿@{
+    Layout = "~/_LayoutMain.cshtml";
+    Page.Title = "عضویت در سایت";
+    }
+@{
+   /* Validation.RequireField("Lname", "نام خانوادگی را وارد کنید.");
+    Validation.RequireField("Fname", "نام را وارد کنید.");
+    Validation.RequireField("FatherName", "نام پدر را وارد کنید.");
+    Validation.RequireField("IDCode", "کدملی را وارد کنید.");
+    Validation.RequireField("Mobile", "شماره موبایل را وارد کنید.");
+    Validation.RequireField("Username", "نام کاربری را وارد کنید.");
+    Validation.RequireField("Password", "رمز عبور را وارد کنید.");
+    Validation.RequireField("password_confirmation", "تکرار رمز عبور را وارد کنید.");*/
+    var Lname = "";
+    var Fname = "";
+    var FatherName="";
+    var Moaref = "";
+    var subject = "";
+    var DateBirthday="";
+    var IDCode = "";
+    var Mobile = "";
+    var Email = "";
+    var Username = "";
+    var Password = "";
+    var DateRegister = DateTime.Now.ToShortDateString();
+    var password_confirmation="";
+    var Massage="";
+   // var Massage1 = "";
+
+    if (IsPost && Validation.IsValid())
+    {
+        Lname = Request.Form["Lname"];
+        Fname = Request.Form["Fname"];
+        FatherName = Request.Form["FatherName"];
+        Moaref = Request.Form["Moaref"];
+        subject = Request.Form["subject"];
+        DateBirthday = Request.Form["DateBirthday"];
+        DateRegister = DateTime.Now.ToShortDateString();
+        IDCode = Request.Form["IDCode"];
+        Mobile = Request.Form["Mobile"];
+        Email = Request.Form["Email"];
+        Username = Request.Form["Username"];
+        Password = Request.Form["Password"];
+        password_confirmation = Request.Form["password_confirmation"];
+
+        //Check Username
+        var db1 = Database.Open("WebDB");
+        var user = db1.QuerySingle("SELECT Username FROM UserTB WHERE LOWER(Username) = LOWER(@0)", Username);
+        if (user != null) 
+        {
+            Massage = "نام کاربری تکراری است.";
+        }
+        else
+        {
+        //Check Password
+            if (Password != password_confirmation)
+            {
+                Massage = "تکرار رمز عبور صحیح نیست.";
+                Password = "";
+                password_confirmation = "";
+            }
+            else
+            {
+                var db = Database.Open("WebDB");
+                var insertCommand = "INSERT INTO UserTB (Fname,Lname,FatherName,Username,Password,Mobile,IDCode,Email,Madrak,DateBirthday,DateRegister,Moaref) Values(@0, @1,@2,@3,@4,@5,@6,@7,@8,@9,@10,@11)";
+                db.Execute(insertCommand, Fname, Lname, FatherName, Username, Password, Mobile, IDCode, Email, subject, DateBirthday, DateRegister, Moaref);                
+                Response.Redirect("~/Account/Thanks");
+            }
+        }
+    }
+    }
+
+<div class="row"><!--consept-->
+			<div class="col-md-12">
+				<div class="container">
+				<div class="row">
+				    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+						<form method="post">
+							<h2>عضویت در سایت</h2>
+							<hr class="colorgraph">
+                            <div class="row">
+                                <div class="col-md-12">
+                                @if (Massage!="")
+                                { <div class="alert alert-danger">
+                                    <strong>خطا!</strong> @Massage</div>}
+                                </div>
+                            </div>
+							<div class="row">
+								<div class="col-xs-12 col-sm-6 col-md-6">
+									<div class="form-group">
+										<input type="text" name="Lname" id="Lname" class="form-control input-lg" required="required" placeholder="نام خانوادگی ..." tabindex="2" value="@Request.Form["Lname"]">                                 
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-6 col-md-6">
+									<div class="form-group">
+				                        <input type="text" name="Fname" id="Fname" class="form-control input-lg" required="required" placeholder="نام ..." tabindex="1" value="@Request.Form["Fname"]">
+									</div>
+								</div>								
+							</div>
+							<div class="form-group">
+								<input type="text" name="FatherName" id="FatherName" class="form-control input-lg" required="required" placeholder="نام پدر ..." tabindex="3" value="@Request.Form["FatherName"]">
+							</div>
+							<div class="form-group">
+								<input type="text" name="Moaref" id="Moaref" class="form-control input-lg" placeholder="معرف ..." tabindex="4" value="@Request.Form["Moaref"]">
+							</div>
+							<div class="form-group">
+				                <select id="subject" name="subject" class="form-control input-lg" tabindex="5"">
+				                     <option value="na" selected="">مدرک تحصیلی ...</option>
+				                     <option value="زیر دیپلم">زیر دیپلم </option>
+				                     <option value="دیپلم">دیپلم</option>
+				                     <option value="کاردانی">کاردانی</option>
+				                     <option value="کارشناسی">کارشناسی</option>
+				                     <option value="کارشناسی ارشد">کارشناسی ارشد</option>
+				                </select>
+							</div>
+							<div class="row">								
+								<div class="col-xs-12 col-sm-6 col-md-6">
+									<div class="form-group">
+										<input type="text" name="IDCode" id="IDCode" onkeypress="return isNumber(event)" class="form-control input-lg"  placeholder="کد ملی ..." required="required" tabindex="7" value="@Request.Form["IDCode"]">
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-6 col-md-6">
+									<div class="form-group">
+										<input type="date" name="DateBirthday" id="DateBirthday" class="form-control input-lg"  placeholder="تاریخ تولد ..." tabindex="6" value="@Request.Form["DateBirthday"]">
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<input type="tel" title="09xx xxx xxxx" pattern="^09[1|3][0-9]{8}$" maxlength="11" name="Mobile" id="Mobile" class="form-control input-lg" onkeypress="return isNumber(event)" required="required" placeholder=" شماره موبایل ... 09xx xxx xxxx   " tabindex="8" value="@Request.Form["Mobile"]">
+							</div>
+							<div class="form-group">
+								<input type="email" name="Email" id="Email" class="form-control input-lg" placeholder="آدرس ایمیل ..." tabindex="9" value="@Request.Form["Email"]">
+							</div>
+							<div class="form-group">
+								<input type="text" name="Username" id="Username" class="form-control input-lg" required="required" placeholder="نام کاربری ..." tabindex="10" value="@Request.Form["Username"]">
+							</div>
+							<div class="row">								
+								<div class="col-xs-12 col-sm-6 col-md-6">
+									<div class="form-group">
+										<input type="password" name="password_confirmation" id="password_confirmation" required="required" class="form-control input-lg" placeholder="تکرار رمز عبور ..." tabindex="12" value="@Request.Form["password_confirmation"]">
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-6 col-md-6">
+									<div class="form-group">
+										<input type="password" name="Password" id="Password" class="form-control input-lg" required="required" placeholder="رمز عبور ..." tabindex="11" value="@Request.Form["Password"]">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-4 col-sm-3 col-md-3">
+									<!--<span class="button-checkbox">
+										<button type="button" class="btn" data-color="info" tabindex="13">I Agree</button>
+				                        <input type="checkbox" name="t_and_c" id="t_and_c" class="hidden" value="1">
+									</span>-->                                    
+								</div>
+								<div class="col-xs-8 col-sm-9 col-md-9">
+									با کلیک بر روی <strong class="label label-primary">ثبت نام</strong>, شما با  <a href="#" data-toggle="modal" data-target="#t_and_c_m">قوانین و مقررات</a> تنظیم شده موافق هستید.
+								</div>
+							</div>
+							
+							<hr class="colorgraph">
+							<div class="row">
+								<div class="col-xs-12 col-md-6"><input type="submit" value="ثبت نام" class="btn btn-success btn-block btn-lg" tabindex="14"></div>
+								<div class="col-xs-12 col-md-6"><a href="Register"><input type="button" value=" انصراف" class="btn btn-primary btn-block btn-lg" tabindex="15"></a></div>
+							</div>
+						</form>
+						<br>
+						<br>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+<script>
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+</script>
